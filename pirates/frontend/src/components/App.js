@@ -1,41 +1,46 @@
 import React, { Component } from "react"
 import {render} from "react-dom"
-import { HexGrid, Layout, Hexagon, Text, Pattern, Path, Hex } from 'react-hexgrid';
+import { HexGrid, Layout, Hexagon, Text, Pattern, Path, Hex, GridGenerator, HexUtils } from 'react-hexgrid';
+import configs from './configurations';
 
 
 export default class App extends Component {
     constructor(props) {
         super(props);
+        
+        const config = {
+          "width": 1920,
+          "height": 1080,
+          "layout": { "width": 6, "height": 6, "flat": false, "spacing": 1.02 },
+          "origin": { "x": 0, "y": 0 },
+          "map": "hexagon",
+          "mapProps": [ 4 ]}
+        const generator = GridGenerator.getGenerator(config.map);
+        const hexagons = generator.apply(this, config.mapProps);
+        this.state = { hexagons, config };
     }
 
     render() {
-        return (
-        <div className="App">
-        <HexGrid width={1200} height={800} viewBox="-50 -50 100 100">
-          {/* Grid with manually inserted hexagons */}
-          <Layout size={{ x: 10, y: 10 }} flat={true} spacing={1.1} origin={{ x: 0, y: 0 }}>
-            <Hexagon q={0} r={0} s={0} />
-            {/* Using pattern (defined below) to fill the hexagon */}
-            <Hexagon q={0} r={-1} s={1} fill="pat-1" />
-            <Hexagon q={0} r={1} s={-1} />
-            <Hexagon q={1} r={-1} s={0}>
-              <Text>1, -1, 0</Text>
-            </Hexagon>
-            <Hexagon q={1} r={0} s={-1}>
-              <Text>1, 0, -1</Text>
-            </Hexagon>
-            {/* Pattern and text */}
-            <Hexagon q={-1} r={1} s={0} fill="pat-2">
-              <Text>-1, 1, 0</Text>
-            </Hexagon>
-            <Hexagon q={-1} r={0} s={1} />
-            <Hexagon q={-2} r={0} s={1} />
-            <Path start={new Hex(0, 0, 0)} end={new Hex(-2, 0, 1)} />
+      const { hexagons, config } = this.state;
+      const layout = config.layout;
+      const size = { x: layout.width, y: layout.height };
+    return (
+      <div className="App">
+        <HexGrid width={config.width} height={config.height}>
+          <Layout size={size} flat={layout.flat} spacing={layout.spacing} origin={config.origin}>
+            {
+              // note: key must be unique between re-renders.
+              // using config.mapProps+i makes a new key when the goal template chnages.
+              hexagons.map((hex, i) => (
+                <Hexagon key={config.mapProps + i} q={hex.q} r={hex.r} s={hex.s}>
+                  {/* <Text>{HexUtils.getID(hex)}</Text> */}
+                </Hexagon>
+              ))
+            }
           </Layout>
-          <Pattern id="pat-1" link="http://cat-picture" />
-          <Pattern id="pat-2" link="http://cat-picture2" />
         </HexGrid>
-      </div>);
+      </div>
+    );
     }
 }
 
