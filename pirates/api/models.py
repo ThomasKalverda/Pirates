@@ -6,7 +6,7 @@ import random
 def generate_unique_code():
     length = 8
     while True:
-        code = ''.join(random.choices(string.ascii_letters), k=length)
+        code = ''.join(random.choices(string.ascii_letters, k=length))
         if Game.objects.filter(code=code).count() == 0:
             break
     return code
