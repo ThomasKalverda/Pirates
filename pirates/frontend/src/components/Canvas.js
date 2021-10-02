@@ -17,22 +17,111 @@ export default class Canvas extends Component {
           "mapProps": [ 4 ]}
         const generator = GridGenerator.getGenerator(config.map);
         const hexagons = generator.apply(this, config.mapProps);
-        this.state = { hexagons, config, path: { start: null, end: null } };
-        this.colorIslands()
+        
+        this.state = { 
+          hexagons, 
+          config, 
+          path: { start: null, end: null },
+          islands: [],
+          selectedHex: new Hex(0,0,0)}; 
+          
+        this.setIslandHexes = this.setIslandHexes.bind(this)
+        this.setIslandHexes();
+        this.colorIslands();
+      
     }
     componentDidMount() {
-      this.colorIslands()
+      
+
+    
+  
+    };
+    setIslandHexes(){
+      const {islands} = this.state;
+      const island_objects = [{name: "isle", q:2, r:0, s:-2}, {name: "isle2", q:0, r:0, s:0}, {name: "isle3", q:0, r:-3, s:3}];
+      for(var i=0; i < island_objects.length; i++){
+        islands.push(new Hex(island_objects[i].q,island_objects[i].r,island_objects[i].s));
+      }
+      this.setState({islands: islands});
     }
-    onClick(event, source) {
-      const { hexagons } = this.state;
+
+    colorSelectedHex(){
+      const { hexagons, selectedHex } = this.state;
+      hexagons
       const targetHex = source.state.hex;
       const coloredHexes = hexagons.map(hex => {
-          hex.props = hex.props || {};
-          hex.props.className += (targetHex.q === hex.q && targetHex.r === hex.r) ? ' green ' : '';
-          return hex;
+      hex.props = hex.props || {};
+      //alert("target hex: (" + targetHex.q + ", " + targetHex.r + ", " + targetHex.s + ")")
+      hex.props.className += (targetHex.q === hex.q && targetHex.r === hex.r) ? ' red-border ' : '';
+      return hex;
       });
-      
       this.setState({ hexagons: coloredHexes });
+    }
+
+    colorIslands() {
+      const { hexagons, islands } = this.state;
+      const coloredHexes = hexagons.map(hex => {
+        hex.props = hex.props || {};
+        islands.forEach((item) => {
+          var targetHex = item;
+          hex.props.className += (targetHex.q === hex.q && targetHex.r === hex.r) ? ' green ' : '';
+          // hex.props.className += (targetHex.q === hex.q && targetHex.r === hex.r) ? ' red-border ' : '';
+        });
+        
+        
+        //hex.props.className += (targetHex.q === hex.q && targetHex.r === hex.r) ? ' green ' : '';
+        return hex;
+    });
+    
+    this.setState({ hexagons: coloredHexes });
+    };
+    
+    // onClick(event, source) {
+    //   const { hexagons, islands } = this.state;
+    //   const coloredHexes = hexagons.map(hex=> {
+    //     hex.props = hex.props || {};
+    //     if (hex.q === islands.first.q && hex.r === islands.first.r && hex.s === islands.first.s) {
+    //       hex.props.className += 'green';
+          
+    //     };
+    //     return hex;
+    //   });
+    //   this.setState({hexagons: coloredHexes})
+    // }
+
+    
+    onClick(event, source) {
+      // if (this.state.hexagons.filter(h => h.selected)>0){
+      //   const currentSelectedHex = this.state.hexagons.filter(h => h.selected);
+      //   currentSelectedHex.props.className -= ' red-border ';
+      // }
+      
+      // const { selectedHex } = this.state;
+      // const nextSelectedHex = source.state.hex;
+      // nextSelectedHex.selected = true;
+      // nextSelectedHex.props.className += ' red-border ';
+      // this.setState({selectedHex: nextSelectedHex});
+      // alert(HexUtils.getID(nextSelectedHex));
+      // const currentSelectedHex = this.state.hexagons.filter(h => h.selected);
+      // currentSelectedHex.props.className -= ' red-border ';
+      // currentSelectedHex.selected = false;
+      // nextSelectedHex = source.state.hex;
+      // nextSelectedHex.selected = true;
+      // nextSelectedHex.props.className += ' red-border ';
+      
+      // const coloredHexes = hexagons.map(hex => {
+      //     hex.props = hex.props || {};
+      //     islands.forEach((item) => {
+      //       var targetHex = item;
+      //       hex.props.className += (targetHex.q === hex.q && targetHex.r === hex.r) ? ' green ' : '';
+      //     });
+          
+          
+      //     //hex.props.className += (targetHex.q === hex.q && targetHex.r === hex.r) ? ' green ' : '';
+      //     return hex;
+      // });
+      
+      // this.setState({ hexagons: coloredHexes });
           
       // const { path } = this.state;
       // if (path.start == null) {
@@ -67,18 +156,18 @@ export default class Canvas extends Component {
     
   }
 
-    colorIslands(){
-      const {hexagons} = this.state;
-      const coloredHexes = hexagons.map(hex => {
-        hex.props = hex.props || {};
-        if (hex.q == 0){
-          hex.props.className += 'green'
-        }
-        return hex;
+    // colorIslands(){
+    //   const {hexagons} = this.state;
+    //   const coloredHexes = hexagons.map(hex => {
+    //     hex.props = hex.props || {};
+    //     if (hex.q == 0){
+    //       hex.props.className += 'green'
+    //     }
+    //     return hex;
         
-      });
-      this.setState({hexagons: coloredHexes});
-    }
+    //   });
+    //   this.setState({hexagons: coloredHexes});
+    // }
 
     render() {
       const { hexagons, config, path } = this.state;
@@ -96,8 +185,8 @@ export default class Canvas extends Component {
                 <Hexagon key={i} q={hex.q} r={hex.r} s={hex.s} className={hex.props ? hex.props.className : null}
                 onMouseEnter={(e, h) => this.onMouseEnter(e, h)}
                 onClick={(e, h) => this.onClick(e, h)}>
-                  {(hex.q == 0 ) ? 
-                  <Text> Isle </Text>: <Text>{HexUtils.getID(hex)}</Text> }
+                  {/* {(hex.q == 0 ) ? 
+                  <Text> Isle </Text>: <Text>{HexUtils.getID(hex)}</Text> } */}
 
                 </Hexagon>
               ))
