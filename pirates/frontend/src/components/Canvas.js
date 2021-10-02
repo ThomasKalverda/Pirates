@@ -45,9 +45,8 @@ export default class Canvas extends Component {
       this.setState({islands: islands});
     }
 
-    colorSelectedHex(){
+    colorSelectedHex(source){
       const { hexagons, selectedHex } = this.state;
-      hexagons
       const targetHex = source.state.hex;
       const coloredHexes = hexagons.map(hex => {
       hex.props = hex.props || {};
@@ -88,9 +87,24 @@ export default class Canvas extends Component {
     //   });
     //   this.setState({hexagons: coloredHexes})
     // }
-
+    colorUnselectedHex(){
+      const { hexagons, selectedHex } = this.state;
+      const coloredHexes = hexagons.map(hex => {
+        hex.props = hex.props || {};
+        //alert("target hex: (" + targetHex.q + ", " + targetHex.r + ", " + targetHex.s + ")")
+        hex.props.className -= (selectedHex.q === hex.q && selectedHex.r === hex.r) ? ' red-border ' : '';
+        return hex;
+        });
+        this.setState({ hexagons: coloredHexes });
+    }
     
     onClick(event, source) {
+      const { selectedHex } = this.state;
+      const nextSelectedHex = source.state.hex;
+      this.colorUnselectedHex();
+      this.setState({selectedHex: nextSelectedHex})
+      this.colorSelectedHex(source);
+      this.colorIslands();
       // if (this.state.hexagons.filter(h => h.selected)>0){
       //   const currentSelectedHex = this.state.hexagons.filter(h => h.selected);
       //   currentSelectedHex.props.className -= ' red-border ';
@@ -99,7 +113,7 @@ export default class Canvas extends Component {
       // const { selectedHex } = this.state;
       // const nextSelectedHex = source.state.hex;
       // nextSelectedHex.selected = true;
-      // nextSelectedHex.props.className += ' red-border ';
+      // // nextSelectedHex.props.className += ' red-border ';
       // this.setState({selectedHex: nextSelectedHex});
       // alert(HexUtils.getID(nextSelectedHex));
       // const currentSelectedHex = this.state.hexagons.filter(h => h.selected);

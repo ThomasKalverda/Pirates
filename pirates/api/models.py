@@ -15,8 +15,6 @@ def generate_game_name():
     name = "NewGame"
     return name
 
-class Map(models.Model):
-    size = models.IntegerField(null=False, default=10)
 
 class Game(models.Model):
     code = models.CharField(max_length=8, default=generate_unique_code, unique=True)
@@ -26,5 +24,8 @@ class Game(models.Model):
     finished = models.BooleanField(default=False, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
     current_tick = models.IntegerField(null=False, default=0)
-    map = models.ForeignKey(Map, on_delete=models.CASCADE, related_name='games')
 
+
+class Map(models.Model):
+    size = models.IntegerField(null=False, default=10)
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, null=True)
