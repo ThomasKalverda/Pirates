@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.views.generic import ListView
 
 
 def registerPage(request):
@@ -28,7 +29,7 @@ def loginPage(request):
         user = authenticate(request, username=request.POST.get('username'), password=request.POST.get('password'))
         if user is not None:
             login(request, user)
-            return redirect('home')
+            return redirect('menu')
         else:
             messages.info(request, 'Username OR password is incorrect')
     
@@ -37,3 +38,20 @@ def loginPage(request):
 def logoutUser(request):
     logout(request)
     return redirect('login')
+
+
+class GameListView(ListView):
+    model = Game
+    template_name = 'game/game_list.html'
+    context_object_name = 'games'
+
+    # Set extra context data for user specific poules
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user.id
+        user_games = Game.objects.filter(users__id=user)
+        context['user_games'] = user_games
+        return context
+
+def menu(request):
+    return render(request, 'game/menu.html')

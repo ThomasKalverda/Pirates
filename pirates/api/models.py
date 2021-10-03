@@ -25,6 +25,9 @@ class Game(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     current_tick = models.IntegerField(null=False, default=0)
 
+    def __str__(self):
+        return self.name
+    
 
 class Map(models.Model):
     size = models.IntegerField(null=False, default=10)
