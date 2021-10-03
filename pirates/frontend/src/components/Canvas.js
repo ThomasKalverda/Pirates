@@ -3,6 +3,7 @@ import {render} from "react-dom"
 import { HexGrid, Layout, Hexagon, Text, Pattern, Path, Hex, GridGenerator, HexUtils } from 'react-hexgrid';
 import configs from './configurations';
 import Map from "./Map";
+import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
 
 
 export default class Canvas extends Component {
@@ -190,8 +191,7 @@ export default class Canvas extends Component {
       const size = { x: layout.width, y: layout.height };
       
     return (
-      <div className="App">
-        <Map />
+      <div>
         <HexGrid width={config.width} height={config.height}>
           <Layout size={size} flat={layout.flat} spacing={layout.spacing} origin={config.origin}>
             {

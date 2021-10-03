@@ -5,7 +5,7 @@ from game.models import Fleet, Island, Player, Hex
 class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
-        fields = ('id', 'code', 'number_of_players', 'users', 'finished', 'created_at', 'current_tick')
+        fields = ('id', 'name', 'code', 'number_of_players', 'users', 'finished', 'created_at', 'current_tick')
 
 class MapSerializer(serializers.ModelSerializer):
     class Meta:

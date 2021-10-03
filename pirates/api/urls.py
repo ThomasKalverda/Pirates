@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import GameDetail, GameList, MapList, MapDetail, IslandList, IslandDetail, HexDetail, HexList, FleetDetail, FleetList, PlayerList, PlayerDetail
+from .views import GetGame, GameDetail, GameList, MapList, MapDetail, IslandList, IslandDetail, HexDetail, HexList, FleetDetail, FleetList, PlayerList, PlayerDetail
 
 urlpatterns = [
     path('game-list/', GameList.as_view()),
@@ -14,4 +14,5 @@ urlpatterns = [
     path('player-detail/<pk>/', PlayerDetail.as_view()),
     path('fleet-list/', FleetList.as_view()),
     path('fleet-detail/<pk>/', FleetDetail.as_view()),
+    path('get-game/', GetGame.as_view())
 ]
