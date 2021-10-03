@@ -14,18 +14,17 @@
 				<h3 id="form-title">MY GAMES</h3>
 			</div>
             {% endif %}
-			<div class="d-flex justify-content-center form_container">
+			<div class=" form_container">
                 
 
         
             {% for game in user_games %}
-            {% if game in user_game %}
 
 				
 					   <div class="d-flex justify-content-center mt-3 login_container">
-						 <a href="{% url 'login' %}" class="btn login_btn" >{{game.name}}</a>
+						 <a href="{% url 'game' game.code %}" class="btn login_btn" >{{game.name}}</a>
 					   </div>
-            {% endif %}
+            
             {% endfor %}	
 			</div>
 			<div class="mt-4">
