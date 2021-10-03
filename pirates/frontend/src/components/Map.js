@@ -19,8 +19,9 @@ export default class Map extends Component {
             finished: false,
             createdAt: null,
             currentTick: null,
-            islands: null
+            islands: []
         }
+        this.getGameDetails = this.getGameDetails.bind(this);
         this.getGameDetails();
         
     };
@@ -45,7 +46,10 @@ export default class Map extends Component {
                 currentTick: data.current_tick,
                 islands: data.islands
             });
+          }).then(() => {
+              console.log(this.state.islands)
           });
+          
       }
     
     
