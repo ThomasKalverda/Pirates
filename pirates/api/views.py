@@ -6,6 +6,7 @@ from .models import Game, Map
 from game.models import Island, Hex, Player, Fleet
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from json import dumps
 
 class GameList(generics.ListCreateAPIView):
     queryset = Game.objects.all()
@@ -23,8 +24,17 @@ class GetGame(APIView):
         code = request.GET.get(self.lookup_url_kwarg)
         if code != None:
             game = Game.objects.filter(code=code).first()
+            map = Map.objects.filter(game=game).first()
+            islands = Island.objects.filter(map=map)
             if game:
                 data = GameSerializer(game).data
+                if map and islands:
+                    islands_dict = {}
+                    for index, island in enumerate(islands):
+                        island_data = IslandSerializer(island).data
+                        islands_dict[index] = island_data
+                    data['islands'] = dumps(islands_dict)
+                    print(data)
                 return Response(data, status=status.HTTP_200_OK)
             return Response(
                 {"Game Not Found": "Invalid Game Code."},

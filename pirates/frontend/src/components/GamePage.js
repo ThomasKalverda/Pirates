@@ -17,11 +17,7 @@ export default class GamePage extends Component {
       <div >
         {/* <h1>gameCode: {this.gameCode}</h1> */}
         <Map gameCode={this.gameCode}/>
-        <TransformWrapper>
-        <TransformComponent>
-          <Canvas/>
-        </TransformComponent>
-      </TransformWrapper>
+        
       </div>
     );
     }

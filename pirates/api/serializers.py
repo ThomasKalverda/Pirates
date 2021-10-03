@@ -15,12 +15,12 @@ class MapSerializer(serializers.ModelSerializer):
 class FleetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Fleet
-        fields = ('id', 'name', 'owner', 'treasures', 'ships', 'hex', 'game')
+        fields = ('id', 'name', 'owner', 'treasures', 'ships', 'q', 'r', 's', 'game')
 
 class IslandSerializer(serializers.ModelSerializer):
     class Meta:
         model = Island
-        fields = ('id', 'name', 'owner', 'treasures', 'defenses', 'hex', 'map')
+        fields = ('id', 'name', 'owner', 'treasures', 'defenses', 'q', 'r', 's', 'map')
 
 class PlayerSerializer(serializers.ModelSerializer):
     class Meta:

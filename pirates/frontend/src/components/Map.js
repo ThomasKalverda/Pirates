@@ -2,6 +2,8 @@ import React, { Component } from "react"
 import {render} from "react-dom"
 import { HexGrid, Layout, Hexagon, Text, Pattern, Path, Hex, GridGenerator, HexUtils } from 'react-hexgrid';
 import configs from './configurations';
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import Canvas from './Canvas'
 
 
 export default class Map extends Component {
@@ -16,7 +18,8 @@ export default class Map extends Component {
             users: [],
             finished: false,
             createdAt: null,
-            currentTick: null
+            currentTick: null,
+            map: null
         }
         this.getGameDetails();
         
@@ -39,7 +42,8 @@ export default class Map extends Component {
                 users: data.users,
                 finished: data.finished,
                 createdAt: data.created_at,
-                currentTick: data.current_tick
+                currentTick: data.current_tick,
+                map: data.islands
             });
           });
       }
@@ -50,7 +54,17 @@ export default class Map extends Component {
         return (<div>
             <h3>Game name: {this.state.name} </h3>
             <h4>Gamecode: {this.props.gameCode}</h4>
-            <h4>Map JSON: </h4>
+            <h4>Map JSON: {this.state.map}</h4>
+            numberOfPlayers: {this.state.numberOfPlayers}
+            users: {this.state.users}
+            finished: {this.state.finished}
+            createdAt: {this.state.createdAt}
+            currentTick: {this.state.currentTick}
+            <TransformWrapper>
+        <TransformComponent>
+          <Canvas/>
+        </TransformComponent>
+      </TransformWrapper>
         </div>
         );
     };

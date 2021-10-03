@@ -2,7 +2,6 @@ import React, { Component } from "react"
 import {render} from "react-dom"
 import { HexGrid, Layout, Hexagon, Text, Pattern, Path, Hex, GridGenerator, HexUtils } from 'react-hexgrid';
 import configs from './configurations';
-import Map from "./Map";
 import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
 
 
