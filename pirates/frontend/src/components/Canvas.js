@@ -24,6 +24,7 @@ export default class Canvas extends Component {
           config, 
           path: { start: null, end: null },
           islands: [],
+          island_objects: props.islands,
           selectedHex: new Hex(0,0,0)}; 
           
         this.setIslandHexes = this.setIslandHexes.bind(this)
@@ -37,13 +38,27 @@ export default class Canvas extends Component {
     
   
     };
+
+    componentWillReceiveProps(props) {
+      this.setState({island_objects: props.islands});
+  }
     setIslandHexes(){
-      const {islands} = this.state;
-      const island_objects = [{name: "isle", q:2, r:0, s:-2}, {name: "isle2", q:0, r:0, s:0}, {name: "isle3", q:0, r:-3, s:3}];
-      for(var i=0; i < island_objects.length; i++){
-        islands.push(new Hex(island_objects[i].q,island_objects[i].r,island_objects[i].s));
-      }
-      this.setState({islands: islands});
+      const {islands, island_objects} = this.state;
+      //const island_objects = JSON.parse(this.props.islands)
+      //var islands_json = {}
+      //islands_json = this.props.islands;
+      //const obj = JSON.parse(islands_json)
+      //console.log(obj[1])
+      //const island_objects = JSON.parse(this.props.islands)
+      // Object.entries(this.props.islands).forEach((key, value)=> {
+      //   island_objects.push(value)
+      // })
+      //const island_objects = [{name: "isle", q:2, r:0, s:-2}, {name: "isle2", q:0, r:0, s:0}, {name: "isle3", q:0, r:-3, s:3}];
+      //console.log(this.props.islands)
+      //for(var i=0; i < island_objects.length; i++){
+        //islands.push(new Hex(island_objects[i].q,island_objects[i].r,island_objects[i].s));
+      //}
+      //this.setState({islands: islands});
     }
 
     colorSelectedHex(source){
@@ -191,6 +206,7 @@ export default class Canvas extends Component {
       
     return (
       <div>
+        <h4>Canvas islands: {this.state.island_objects} </h4>
         <HexGrid width={config.width} height={config.height}>
           <Layout size={size} flat={layout.flat} spacing={layout.spacing} origin={config.origin}>
             {

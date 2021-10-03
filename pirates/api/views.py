@@ -29,11 +29,11 @@ class GetGame(APIView):
             if game:
                 data = GameSerializer(game).data
                 if map and islands:
-                    islands_dict = {}
-                    for index, island in enumerate(islands):
+                    island_list = []
+                    for island in islands:
                         island_data = IslandSerializer(island).data
-                        islands_dict[index] = island_data
-                    data['islands'] = dumps(islands_dict)
+                        island_list.append(island_data)
+                    data['islands'] = dumps(island_list)
                     print(data)
                 return Response(data, status=status.HTTP_200_OK)
             return Response(

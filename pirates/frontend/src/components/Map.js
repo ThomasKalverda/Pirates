@@ -19,7 +19,7 @@ export default class Map extends Component {
             finished: false,
             createdAt: null,
             currentTick: null,
-            map: null
+            islands: null
         }
         this.getGameDetails();
         
@@ -43,7 +43,7 @@ export default class Map extends Component {
                 finished: data.finished,
                 createdAt: data.created_at,
                 currentTick: data.current_tick,
-                map: data.islands
+                islands: data.islands
             });
           });
       }
@@ -54,7 +54,7 @@ export default class Map extends Component {
         return (<div>
             <h3>Game name: {this.state.name} </h3>
             <h4>Gamecode: {this.props.gameCode}</h4>
-            <h4>Map JSON: {this.state.map}</h4>
+            <h4>Map JSON: {this.state.islands}</h4>
             numberOfPlayers: {this.state.numberOfPlayers}
             users: {this.state.users}
             finished: {this.state.finished}
@@ -62,7 +62,7 @@ export default class Map extends Component {
             currentTick: {this.state.currentTick}
             <TransformWrapper>
         <TransformComponent>
-          <Canvas/>
+          <Canvas islands={this.state.islands}/>
         </TransformComponent>
       </TransformWrapper>
         </div>

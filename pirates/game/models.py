@@ -22,7 +22,7 @@ class Player(models.Model):
 
 class Island(models.Model):
     name = models.CharField(max_length=20, null=False, default="generate_island_name")
-    owner = models.ForeignKey(Player, null=True, on_delete=models.SET_NULL)
+    owner = models.ForeignKey(Player, null=True, on_delete=models.SET_NULL, blank=True)
     treasures = models.IntegerField(default=1, null=False)
     defenses = models.IntegerField(default=0, null=True)
     q = models.IntegerField(null=True)
@@ -31,7 +31,7 @@ class Island(models.Model):
     map = models.ForeignKey(Map, on_delete=models.CASCADE, related_name='islands')
 
     def __str__(self):
-        return (f"{self.hex}")
+        return (f"{self.name} ({self.q}, {self.r}, {self.s})")
 
 
 class Fleet(models.Model):
