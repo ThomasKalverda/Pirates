@@ -24,14 +24,16 @@ export default class Canvas extends Component {
           config, 
           path: { start: null, end: null },
           islands: [],
-          island_objects: props.islands,
           selectedHex: new Hex(0,0,0)}; 
           
         this.setIslandHexes = this.setIslandHexes.bind(this)
         
+        this.setIslandHexes();
         this.colorIslands();
+
       
     };
+    
     componentDidMount() {
       
 
@@ -39,14 +41,15 @@ export default class Canvas extends Component {
   
     };
 
-    componentWillReceiveProps(props) {
-      this.setState({island_objects: props.islands});
-      this.setIslandHexes();
-  }
+  //   componentDidUpdate(props) {
+  //     this.setState({island_objects: props.islands});
+  //     this.setIslandHexes();
+  // }
     setIslandHexes(){
+      
       console.log(this.props)
       const {islands} = this.state;
-      //const island_objects = JSON.parse(this.props.islands)
+      const island_objects = this.props.islands
       //var islands_json = {}
       //islands_json = this.props.islands;
       //const obj = JSON.parse(islands_json)
@@ -55,7 +58,7 @@ export default class Canvas extends Component {
       // Object.entries(this.props.islands).forEach((key, value)=> {
       //   island_objects.push(value)
       // })
-      const island_objects = [{name: "isle", q:2, r:0, s:-2}, {name: "isle2", q:0, r:0, s:0}, {name: "isle3", q:0, r:-3, s:3}];
+      //const island_objects = [{name: "isle", q:2, r:0, s:-2}, {name: "isle2", q:0, r:0, s:0}, {name: "isle3", q:0, r:-3, s:3}];
       console.log(this.props.islands)
       for(var i=0; i < island_objects.length; i++){
         islands.push(new Hex(island_objects[i].q,island_objects[i].r,island_objects[i].s));

@@ -66,7 +66,7 @@ export default class Map extends Component {
             currentTick: {this.state.currentTick}
             <TransformWrapper>
         <TransformComponent>
-          <Canvas islands={this.state.islands}/>
+        {this.state.islands && <Canvas islands={this.state.islands}/>}
         </TransformComponent>
       </TransformWrapper>
         </div>
