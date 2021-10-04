@@ -47,7 +47,7 @@ export default class Map extends Component {
                 islands: data.islands
             });
           }).then(() => {
-              console.log(this.state.islands)
+              //console.log(this.state.islands)
           });
           
       }
@@ -56,14 +56,14 @@ export default class Map extends Component {
 
     render() {
         return (<div>
-            <h3>Game name: {this.state.name} </h3>
+            {/*<h3>Game name: {this.state.name} </h3>
             <h4>Gamecode: {this.props.gameCode}</h4>
             <h4>Map JSON: {this.state.islands}</h4>
             numberOfPlayers: {this.state.numberOfPlayers}
             users: {this.state.users}
             finished: {this.state.finished}
             createdAt: {this.state.createdAt}
-            currentTick: {this.state.currentTick}
+        currentTick: {this.state.currentTick}*/}
             <TransformWrapper>
         <TransformComponent>
         {this.state.islands && <Canvas islands={this.state.islands}/>}
